@@ -11,7 +11,6 @@ export default function FramePreview({ frame, shots, activeShot, liveVideo, onDr
         <div className="photo-area" style={style(frame.layout[i].photo)} onPointerDown={onDrag ? (e) => startDrag(e, i, "photo", onDrag) : undefined}>
           {shots?.[i] ? <img src={shots[i]!} alt={`${i + 1}번째 촬영 사진`} /> : activeShot === i && liveVideo ? <video ref={liveVideo} autoPlay muted playsInline className="mirrored" /> : <div className="slot-empty" />}
         </div>
-        <span className="slot-num">{String(i + 1).padStart(2, "0")}</span>
       </div>;
     })}
     {frame.showHero && <div className="hero-area">{frame.hero ? <img src={assetUrl(frame.hero)!} alt="프레임 대표 이미지" /> : <div className="hero-placeholder">HERO<br/>IMAGE</div>}</div>}
@@ -25,7 +24,6 @@ export default function FramePreview({ frame, shots, activeShot, liveVideo, onDr
       return <img key={item.id} className={`decoration-element${draggable ? " editable" : " locked"}`} src={assetUrl(item.key)!} alt="장식 요소" style={style(item.rect)} onPointerDown={draggable ? (e) => startDrag(e, item.id, onDecorationDrag!) : undefined} />;
     })}
     {onDecorationResize && frame.decorations.filter((item) => !hiddenDecorationIds?.includes(item.id)).map((item) => <button type="button" key={`${item.id}-resize`} className="resize-handle decoration-resize" style={{ left: `${(item.rect.x + item.rect.w) * 100}%`, top: `${(item.rect.y + item.rect.h) * 100}%` }} aria-label="장식 요소 크기 조절" onPointerDown={(e) => startResize(e, onDecorationResize, item.id, e.currentTarget.parentElement!)} />)}
-    <span className="frame-title">{frame.title}</span>
   </div>;
 }
 

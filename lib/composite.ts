@@ -47,10 +47,6 @@ export async function renderComposite(frame: Frame, shots: string[]): Promise<st
     const outer = { x: slot.x * W, y: slot.y * H, w: slot.w * W, h: slot.h * H };
     ctx.fillStyle = "#ffffff"; ctx.fillRect(outer.x, outer.y, outer.w, outer.h);
     cover(ctx, shotImages[i], box(frame.layout[i].photo, slot));
-    ctx.fillStyle = "rgba(16,29,49,.78)";
-    ctx.fillRect(outer.x + 8, outer.y + 8, 28, 22);
-    ctx.fillStyle = "#fff"; ctx.font = "bold 14px Arial"; ctx.textAlign = "center";
-    ctx.fillText(String(i + 1).padStart(2, "0"), outer.x + 22, outer.y + 24);
   }
   if (frame.showHero) {
     const heroBox = { x: W * .51, y: H * .045, w: W * .44, h: H * .9 };
@@ -62,7 +58,5 @@ export async function renderComposite(frame: Frame, shots: string[]): Promise<st
   }
   if (frame.decoration) contain(ctx, await loadImage(assetUrl(frame.decoration)!), { x: 0, y: 0, w: W, h: H });
   for (const item of frame.decorations) contain(ctx, await loadImage(assetUrl(item.key)!), box(item.rect, { x: 0, y: 0, w: 1, h: 1 }));
-  ctx.fillStyle = "#ffffff"; ctx.textAlign = "left";
-  ctx.font = "bold 35px Arial"; ctx.fillText(frame.title, 42, 978, 680);
   return canvas.toDataURL("image/png");
 }

@@ -13,6 +13,5 @@ export default function ShotPreview({ frame, index, shot, liveVideo }: { frame: 
       {shot ? <img src={shot} alt={`${index + 1}번째 촬영 사진`} /> : <video ref={liveVideo} autoPlay muted playsInline className="mirrored" />}
     </div>
     {frame.poses[index] && <img className="single-shot-pose" src={assetUrl(frame.poses[index])!} alt="포즈 가이드" style={rectStyle(frame.layout[index].person)} />}
-    <span className="single-shot-number">{String(index + 1).padStart(2, "0")} / 04</span>
   </div>;
 }
