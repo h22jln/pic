@@ -1,4 +1,4 @@
-import { assetUrl, Frame, Rect, slotRect } from "./frame";
+import { assetUrl, Frame, Rect, slotRect, textDecorationSize } from "./frame";
 
 const W = 800;
 const H = 1000;
@@ -57,6 +57,17 @@ export async function renderComposite(frame: Frame, shots: string[]): Promise<st
     if (poseImages[i]) contain(ctx, poseImages[i]!, box(frame.layout[i].person, slotRect(i, frame.showHero)));
   }
   if (frame.decoration) contain(ctx, await loadImage(assetUrl(frame.decoration)!), { x: 0, y: 0, w: W, h: H });
-  for (const item of frame.decorations) contain(ctx, await loadImage(assetUrl(item.key)!), box(item.rect, { x: 0, y: 0, w: 1, h: 1 }));
+  if (frame.decorations.some((item) => item.type === "text") && document.fonts?.load) await document.fonts.load("20px NeoDunggeunmo").catch(() => []);
+  for (const item of frame.decorations) {
+    if (item.type === "text") {
+      ctx.save();
+      ctx.fillStyle = item.color;
+      ctx.font = `${textDecorationSize(item.rect, item.text)}px NeoDunggeunmo, monospace`;
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText(item.text, (item.rect.x + item.rect.w / 2) * W, (item.rect.y + item.rect.h / 2) * H);
+      ctx.restore();
+    } else contain(ctx, await loadImage(assetUrl(item.key)!), box(item.rect, { x: 0, y: 0, w: 1, h: 1 }));
+  }
   return canvas.toDataURL("image/png");
 }

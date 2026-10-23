@@ -1,7 +1,9 @@
 export type Rect = { x: number; y: number; w: number; h: number };
 export type PoseLayout = { photo: Rect; person: Rect };
 export type FrameLayout = PoseLayout[];
-export type Decoration = { id: string; key: string; rect: Rect };
+export type Decoration =
+  | { id: string; type: "image"; key: string; rect: Rect }
+  | { id: string; type: "text"; text: string; color: string; rect: Rect };
 export type Frame = {
   id: string; title: string; subtitle: string; accent: string; backgroundColor: string;
   published: boolean; showHero: boolean; poses: (string | null)[];
@@ -43,7 +45,15 @@ export function isPoseRect(value: unknown): value is Rect {
 }
 
 export function isDecorations(value: unknown): value is Decoration[] {
-  return Array.isArray(value) && value.length <= 20 && value.every((item) => item && typeof item.id === "string" && /^[a-f0-9-]{36}$/.test(item.id) && typeof item.key === "string" && /^[a-f0-9-]{36}\.png$/.test(item.key) && isDecorationRect(item.rect));
+  return Array.isArray(value) && value.length <= 20 && value.every((item) => {
+    if (!item || typeof item.id !== "string" || !/^[a-f0-9-]{36}$/.test(item.id) || !isDecorationRect(item.rect)) return false;
+    if (item.type === "text") return typeof item.text === "string" && item.text.trim().length > 0 && item.text.length <= 60 && typeof item.color === "string" && /^#[0-9a-fA-F]{6}$/.test(item.color);
+    return (item.type === undefined || item.type === "image") && typeof item.key === "string" && /^[a-f0-9-]{36}\.png$/.test(item.key);
+  });
+}
+
+export function textDecorationSize(rect: Rect, text: string): number {
+  return Math.max(1, Math.min(rect.h * 1000 * 0.72, rect.w * 800 / Math.max(1, Array.from(text).length)));
 }
 
 export function isDecorationRect(value: unknown): value is Rect {

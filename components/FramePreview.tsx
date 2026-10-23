@@ -1,5 +1,5 @@
 "use client";
-import { assetUrl, Frame, Rect, slotRect } from "@/lib/frame";
+import { assetUrl, Frame, Rect, slotRect, textDecorationSize } from "@/lib/frame";
 
 function style(rect: Rect): React.CSSProperties { return { left: `${rect.x * 100}%`, top: `${rect.y * 100}%`, width: `${rect.w * 100}%`, height: `${rect.h * 100}%` }; }
 
@@ -19,9 +19,13 @@ export default function FramePreview({ frame, shots, activeShot, liveVideo, onDr
       {onResize && <button type="button" className="resize-handle pose-resize" style={{ left: `${(frame.layout[i].person.x + frame.layout[i].person.w) * 100}%`, top: `${(frame.layout[i].person.y + frame.layout[i].person.h) * 100}%` }} aria-label={`${i + 1}번 포즈 이미지 크기 조절`} onPointerDown={(e) => startResize(e, onResize, i, e.currentTarget.parentElement!)} />}
     </div>)}
     {frame.decoration && <img className="decoration-layer" src={assetUrl(frame.decoration)!} alt="" />}
-    {frame.decorations.map((item) => {
+    {frame.decorations.map((item, index) => {
       const draggable = !!onDecorationDrag;
-      return <img key={item.id} className={`decoration-element${draggable ? " editable" : " locked"}`} src={assetUrl(item.key)!} alt="장식 요소" style={style(item.rect)} onPointerDown={draggable ? (e) => startDrag(e, item.id, onDecorationDrag!) : undefined} />;
+      if (item.type === "text") return <div key={item.id} className="text-decoration" style={{ zIndex: 5 + index }}>
+        <svg viewBox="0 0 800 1000" preserveAspectRatio="none" aria-hidden="true"><text x={(item.rect.x + item.rect.w / 2) * 800} y={(item.rect.y + item.rect.h / 2) * 1000} fill={item.color} fontFamily="NeoDunggeunmo, monospace" fontSize={textDecorationSize(item.rect, item.text)} textAnchor="middle" dominantBaseline="central">{item.text}</text></svg>
+        {draggable && <div className="text-decoration-hitbox" style={style(item.rect)} onPointerDown={(e) => startDrag(e, item.id, onDecorationDrag!)} />}
+      </div>;
+      return <img key={item.id} className={`decoration-element${draggable ? " editable" : " locked"}`} src={assetUrl(item.key)!} alt="장식 요소" style={{ ...style(item.rect), zIndex: 5 + index }} onPointerDown={draggable ? (e) => startDrag(e, item.id, onDecorationDrag!) : undefined} />;
     })}
     {onDecorationResize && frame.decorations.map((item) => <button type="button" key={`${item.id}-resize`} className="resize-handle decoration-resize" style={{ left: `${(item.rect.x + item.rect.w) * 100}%`, top: `${(item.rect.y + item.rect.h) * 100}%` }} aria-label="장식 요소 크기 조절" onPointerDown={(e) => startResize(e, onDecorationResize, item.id, e.currentTarget.parentElement!)} />)}
   </div>;

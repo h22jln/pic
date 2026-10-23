@@ -62,7 +62,7 @@ export function toFrame(row: typeof frames.$inferSelect): Frame {
     id: row.id, title: row.title, subtitle: row.subtitle, accent: row.accent, backgroundColor: row.backgroundColor,
     published: row.published, showHero: row.showHero,
     poses: Array.isArray(poses) && poses.length === 4 ? poses : [null, null, null, null],
-    decoration: row.decoration, decorations: isDecorations(decorations) ? decorations.map((item) => ({ id: item.id, key: item.key, rect: item.rect })) : [], hero: row.hero, selectionImage: row.selectionImage,
+    decoration: row.decoration, decorations: isDecorations(decorations) ? decorations.map((item) => item.type === "text" ? { id: item.id, type: "text" as const, text: item.text, color: item.color, rect: item.rect } : { id: item.id, type: "image" as const, key: item.key, rect: item.rect }) : [], hero: row.hero, selectionImage: row.selectionImage,
     layout: isLayout(layout) ? layout : [], createdAt: row.createdAt, updatedAt: row.updatedAt,
   };
 }
