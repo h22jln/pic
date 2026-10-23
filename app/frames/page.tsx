@@ -23,7 +23,7 @@ export default function FramesPage() {
 
   return <main className="site-shell">
     <header className="topbar">
-      <div className="brand"><span className="brand-mark">P<span>✦</span></span><span>POSE FRAME<br/><small>PHOTO STUDIO</small></span></div>
+      <div className="brand">ONE STUDIO</div>
       <a className="quiet-link" href="/"><ArrowLeft size={16}/> 처음으로</a>
     </header>
     <section className="select-section">

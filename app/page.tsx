@@ -20,10 +20,10 @@ export default function Home() {
   }, []);
 
   return <main className="landing-shell">
-    <header className="landing-header"><span className="brand-mark">P<span>✦</span></span><span>POSE FRAME<br/><small>PHOTO STUDIO</small></span></header>
+    <header className="landing-header"><span>ONE STUDIO</span></header>
     <section className="landing-content" aria-live="polite">
       <span className="landing-eyebrow">FOUR CUT PHOTO EXPERIENCE</span>
-      <h1>{frame?.title ?? "포즈 프레임 스튜디오"}</h1>
+      <h1>{frame?.title ?? "ONE STUDIO"}</h1>
       <p>{loading ? "촬영을 준비하는 중입니다." : error || frame?.subtitle || "함께 만드는 네 컷의 순간을 시작해 보세요."}</p>
       <a className="landing-start" href="/frames">시작하기 <ArrowRight size={20}/></a>
     </section>
