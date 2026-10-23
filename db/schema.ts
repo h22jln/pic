@@ -17,3 +17,11 @@ export const frames = sqliteTable("frames", {
   createdAt: integer("created_at").notNull(),
   updatedAt: integer("updated_at").notNull(),
 });
+
+export const galleryPhotos = sqliteTable("gallery_photos", {
+  id: text("id").primaryKey(),
+  frameId: text("frame_id").notNull(),
+  frameTitle: text("frame_title").notNull(),
+  imageKey: text("image_key").notNull(),
+  createdAt: integer("created_at").notNull(),
+});

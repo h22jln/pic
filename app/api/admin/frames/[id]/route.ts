@@ -13,7 +13,7 @@ export async function PUT(request: NextRequest, context: { params: Promise<{ id:
     return NextResponse.json({ error: "프레임 내용을 확인해 주세요." }, { status: 400 });
   }
   if (data.published && (data.poses.some((x: unknown) => !x) || (data.showHero && !data.hero))) return NextResponse.json({ error: "공개하려면 포즈 4개와 오른쪽 이미지를 등록해 주세요." }, { status: 400 });
-  const [row] = await getDb().update(frames).set({ title: data.title.trim(), subtitle: data.subtitle.trim(), accent: data.accent, backgroundColor: data.backgroundColor, published: data.published, showHero: data.showHero, poses: JSON.stringify(data.poses), decoration: data.decoration, decorations: JSON.stringify(data.decorations), hero: data.hero, selectionImage: data.selectionImage, layout: JSON.stringify(data.layout), updatedAt: Date.now() }).where(eq(frames.id, id)).returning();
+  const [row] = await getDb().update(frames).set({ title: data.title.trim(), subtitle: data.subtitle.trim(), accent: data.accent, backgroundColor: data.backgroundColor, published: data.published, showHero: data.showHero, poses: JSON.stringify(data.poses), decoration: data.decoration, decorations: JSON.stringify(data.decorations.map((item: { id: string; key: string; rect: unknown }) => ({ id: item.id, key: item.key, rect: item.rect }))), hero: data.hero, selectionImage: data.selectionImage, layout: JSON.stringify(data.layout), updatedAt: Date.now() }).where(eq(frames.id, id)).returning();
   if (!row) return NextResponse.json({ error: "프레임을 찾을 수 없습니다." }, { status: 404 });
   return NextResponse.json(toFrame(row));
 }

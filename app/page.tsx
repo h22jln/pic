@@ -8,6 +8,7 @@ export default function Home() {
       </div>
       <div className="welcome-dialog-actions">
         <a className="landing-start" href="/frames">예, 시작하기</a>
+        <a className="landing-start welcome-no" href="/gallery">아니오</a>
       </div>
     </section>
   </main>;

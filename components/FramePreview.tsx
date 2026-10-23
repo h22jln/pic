@@ -3,7 +3,7 @@ import { assetUrl, Frame, Rect, slotRect } from "@/lib/frame";
 
 function style(rect: Rect): React.CSSProperties { return { left: `${rect.x * 100}%`, top: `${rect.y * 100}%`, width: `${rect.w * 100}%`, height: `${rect.h * 100}%` }; }
 
-export default function FramePreview({ frame, shots, activeShot, liveVideo, onDrag, onResize, onDecorationDrag, onDecorationResize, editableDecorationIds, hiddenDecorationIds }: { frame: Frame; shots?: (string | null)[]; activeShot?: number; liveVideo?: React.RefObject<HTMLVideoElement | null>; onDrag?: (index: number, part: "photo" | "person", dx: number, dy: number) => void; onResize?: (index: number, dw: number, dh: number) => void; onDecorationDrag?: (id: string, dx: number, dy: number) => void; onDecorationResize?: (id: string, dw: number, dh: number) => void; editableDecorationIds?: string[]; hiddenDecorationIds?: string[] }) {
+export default function FramePreview({ frame, shots, activeShot, liveVideo, onDrag, onResize, onDecorationDrag, onDecorationResize }: { frame: Frame; shots?: (string | null)[]; activeShot?: number; liveVideo?: React.RefObject<HTMLVideoElement | null>; onDrag?: (index: number, part: "photo" | "person", dx: number, dy: number) => void; onResize?: (index: number, dw: number, dh: number) => void; onDecorationDrag?: (id: string, dx: number, dy: number) => void; onDecorationResize?: (id: string, dw: number, dh: number) => void; }) {
   return <div className="frame-art" style={{ backgroundColor: frame.backgroundColor }}>
     {Array.from({ length: 4 }, (_, i) => {
       const slot = slotRect(i, frame.showHero);
@@ -19,11 +19,11 @@ export default function FramePreview({ frame, shots, activeShot, liveVideo, onDr
       {onResize && <button type="button" className="resize-handle pose-resize" style={{ left: `${(frame.layout[i].person.x + frame.layout[i].person.w) * 100}%`, top: `${(frame.layout[i].person.y + frame.layout[i].person.h) * 100}%` }} aria-label={`${i + 1}번 포즈 이미지 크기 조절`} onPointerDown={(e) => startResize(e, onResize, i, e.currentTarget.parentElement!)} />}
     </div>)}
     {frame.decoration && <img className="decoration-layer" src={assetUrl(frame.decoration)!} alt="" />}
-    {frame.decorations.filter((item) => !hiddenDecorationIds?.includes(item.id)).map((item) => {
-      const draggable = !!onDecorationDrag && (!editableDecorationIds || editableDecorationIds.includes(item.id));
+    {frame.decorations.map((item) => {
+      const draggable = !!onDecorationDrag;
       return <img key={item.id} className={`decoration-element${draggable ? " editable" : " locked"}`} src={assetUrl(item.key)!} alt="장식 요소" style={style(item.rect)} onPointerDown={draggable ? (e) => startDrag(e, item.id, onDecorationDrag!) : undefined} />;
     })}
-    {onDecorationResize && frame.decorations.filter((item) => !hiddenDecorationIds?.includes(item.id)).map((item) => <button type="button" key={`${item.id}-resize`} className="resize-handle decoration-resize" style={{ left: `${(item.rect.x + item.rect.w) * 100}%`, top: `${(item.rect.y + item.rect.h) * 100}%` }} aria-label="장식 요소 크기 조절" onPointerDown={(e) => startResize(e, onDecorationResize, item.id, e.currentTarget.parentElement!)} />)}
+    {onDecorationResize && frame.decorations.map((item) => <button type="button" key={`${item.id}-resize`} className="resize-handle decoration-resize" style={{ left: `${(item.rect.x + item.rect.w) * 100}%`, top: `${(item.rect.y + item.rect.h) * 100}%` }} aria-label="장식 요소 크기 조절" onPointerDown={(e) => startResize(e, onDecorationResize, item.id, e.currentTarget.parentElement!)} />)}
   </div>;
 }
 

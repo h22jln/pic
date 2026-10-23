@@ -1,7 +1,7 @@
 export type Rect = { x: number; y: number; w: number; h: number };
 export type PoseLayout = { photo: Rect; person: Rect };
 export type FrameLayout = PoseLayout[];
-export type Decoration = { id: string; key: string; rect: Rect; editableByUser: boolean };
+export type Decoration = { id: string; key: string; rect: Rect };
 export type Frame = {
   id: string; title: string; subtitle: string; accent: string; backgroundColor: string;
   published: boolean; showHero: boolean; poses: (string | null)[];
@@ -43,7 +43,7 @@ export function isPoseRect(value: unknown): value is Rect {
 }
 
 export function isDecorations(value: unknown): value is Decoration[] {
-  return Array.isArray(value) && value.length <= 20 && value.every((item) => item && typeof item.id === "string" && /^[a-f0-9-]{36}$/.test(item.id) && typeof item.key === "string" && /^[a-f0-9-]{36}\.png$/.test(item.key) && isDecorationRect(item.rect) && (item.editableByUser === undefined || typeof item.editableByUser === "boolean"));
+  return Array.isArray(value) && value.length <= 20 && value.every((item) => item && typeof item.id === "string" && /^[a-f0-9-]{36}$/.test(item.id) && typeof item.key === "string" && /^[a-f0-9-]{36}\.png$/.test(item.key) && isDecorationRect(item.rect));
 }
 
 export function isDecorationRect(value: unknown): value is Rect {
