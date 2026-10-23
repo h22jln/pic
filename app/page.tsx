@@ -1,31 +1,14 @@
-"use client";
-import { useEffect, useState } from "react";
-import { ArrowRight } from "lucide-react";
-import { Frame } from "@/lib/frame";
-
 export default function Home() {
-  const [frame, setFrame] = useState<Frame | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-
-  useEffect(() => {
-    fetch("/api/frames")
-      .then((response) => {
-        if (!response.ok) throw new Error("프레임을 불러오지 못했습니다.");
-        return response.json() as Promise<Frame[]>;
-      })
-      .then((frames) => setFrame(frames[0] ?? null))
-      .catch(() => setError("잠시 후 다시 시도해 주세요."))
-      .finally(() => setLoading(false));
-  }, []);
-
-  return <main className="landing-shell">
-    <header className="landing-header"><span>ONE STUDIO</span></header>
-    <section className="landing-content" aria-live="polite">
-      <span className="landing-eyebrow">FOUR CUT PHOTO EXPERIENCE</span>
-      <h1>{frame?.title ?? "ONE STUDIO"}</h1>
-      <p>{loading ? "촬영을 준비하는 중입니다." : error || frame?.subtitle || "함께 만드는 네 컷의 순간을 시작해 보세요."}</p>
-      <a className="landing-start" href="/frames">시작하기 <ArrowRight size={20}/></a>
+  return <main className="landing-shell alert-landing">
+    <section className="welcome-dialog" role="dialog" aria-labelledby="welcome-question">
+      <div className="welcome-titlebar"><span>ONE STUDIO</span><span className="welcome-titlebar-icon" aria-hidden="true">?</span></div>
+      <div className="welcome-dialog-body">
+        <span className="welcome-question-icon" aria-hidden="true">?</span>
+        <h1 id="welcome-question">사진을 찍어보시겠습니까?</h1>
+      </div>
+      <div className="welcome-dialog-actions">
+        <a className="landing-start" href="/frames">예, 시작하기</a>
+      </div>
     </section>
   </main>;
 }
