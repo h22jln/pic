@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import FramePreview from "@/components/FramePreview";
-import { Frame } from "@/lib/frame";
+import { assetUrl, Frame } from "@/lib/frame";
 
 export default function FramesPage() {
   const [frames, setFrames] = useState<Frame[]>([]);
@@ -35,7 +35,7 @@ export default function FramesPage() {
         : error ? <div className="empty-state"><h2>프레임을 불러오지 못했습니다</h2><p>{error}</p><button className="outline-button" onClick={() => window.location.reload()}>다시 시도</button></div>
         : frames.length === 0 ? <div className="empty-state"><h2>선택할 수 있는 프레임이 없습니다</h2><p>공개된 프레임이 등록되면 여기에서 선택할 수 있습니다.</p></div>
         : <div className="frame-grid">{frames.map((frame, index) => <a className="frame-card" href={`/studio/${frame.id}`} key={frame.id} aria-label={`${frame.title} 프레임 선택`}>
-            <div className="card-art"><FramePreview frame={frame}/></div>
+            <div className="card-art">{frame.selectionImage ? <img className="selection-image" src={assetUrl(frame.selectionImage)!} alt={`${frame.title} 미리보기`} /> : <FramePreview frame={frame}/>}</div>
             <div className="card-info"><div><span className="card-index">FRAME {String(index + 1).padStart(2, "0")}</span><h2>{frame.title}</h2><p>{frame.subtitle}</p></div><span className="card-arrow"><ArrowRight size={18}/></span></div>
           </a>)}</div>}
     </section>

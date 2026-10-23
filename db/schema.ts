@@ -12,6 +12,7 @@ export const frames = sqliteTable("frames", {
   decoration: text("decoration"),
   decorations: text("decorations").notNull().default("[]"),
   hero: text("hero"),
+  selectionImage: text("selection_image"),
   layout: text("layout").notNull(),
   createdAt: integer("created_at").notNull(),
   updatedAt: integer("updated_at").notNull(),

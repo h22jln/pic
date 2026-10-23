@@ -15,6 +15,13 @@
       "when": 1792649080253,
       "tag": "0001_flashy_power_pack",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1792730527608,
+      "tag": "0002_cheerful_black_knight",
+      "breakpoints": true
     }
   ]
 }

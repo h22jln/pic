@@ -1,0 +1,1 @@
+ALTER TABLE `frames` ADD `selection_image` text;

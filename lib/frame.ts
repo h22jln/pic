@@ -5,7 +5,7 @@ export type Decoration = { id: string; key: string; rect: Rect; editableByUser: 
 export type Frame = {
   id: string; title: string; subtitle: string; accent: string; backgroundColor: string;
   published: boolean; showHero: boolean; poses: (string | null)[];
-  decoration: string | null; decorations: Decoration[]; hero: string | null; layout: FrameLayout;
+  decoration: string | null; decorations: Decoration[]; hero: string | null; selectionImage: string | null; layout: FrameLayout;
   createdAt: number; updatedAt: number;
 };
 
