@@ -88,7 +88,9 @@ body,button,input,textarea,select{font-family:NeoDunggeunmo,"Courier New",monosp
 .alert-landing{display:grid;place-items:center;padding:20px;min-height:100dvh}
 .welcome-dialog{width:min(540px,100%);background:#c0c0c0;box-shadow:inset -1px -1px #404040,inset 1px 1px #fff,inset -2px -2px #808080,inset 2px 2px #dfdfdf,5px 6px 0 #003c3c}
 .welcome-titlebar{display:flex;align-items:center;justify-content:space-between;min-height:34px;margin:4px 4px 0;padding:4px 8px;background:linear-gradient(90deg,#000080,#1084d0);color:#fff;font-size:14px}
-.welcome-titlebar-icon{display:grid;place-items:center;width:20px;height:20px;background:#c0c0c0;color:#000;border:1px solid;border-color:#fff #404040 #404040 #fff;line-height:1}
+.welcome-titlebar-icon{position:relative;display:grid;place-items:center;width:20px;height:20px;padding:0;background:#c0c0c0;color:#000;border:1px solid;border-color:#fff #404040 #404040 #fff;font:inherit;line-height:1;cursor:help}
+.welcome-titlebar-icon::after{position:absolute;top:calc(100% + 8px);right:0;z-index:2;padding:5px 8px;background:#ffffe1;color:#000;border:1px solid #000;box-shadow:2px 2px 0 #808080;content:"idea by leche";font-size:12px;white-space:nowrap;opacity:0;pointer-events:none}
+.welcome-titlebar-icon:hover::after,.welcome-titlebar-icon:focus::after{opacity:1}
 .welcome-dialog-body{display:flex;align-items:center;gap:22px;padding:42px 34px 30px}
 .welcome-question-icon{display:grid;place-items:center;flex:none;width:48px;height:48px;border:3px solid #fff;border-radius:50%;background:#000080;color:#fff;font-size:32px;line-height:1}
 .welcome-dialog h1{margin:0;font-size:clamp(18px,3.6vw,26px);font-weight:400;line-height:1.4;letter-spacing:0}
